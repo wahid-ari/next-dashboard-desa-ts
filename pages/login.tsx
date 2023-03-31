@@ -11,16 +11,16 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const { updateToast, pushToast, dismissToast } = useToast();
 
-  const handleChange = (e) => {
+  function handleChange(e: any) {
     setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  }
 
   useEffect(() => {
     // Prefetch the dashboard page
     Router.prefetch('/');
   }, []);
 
-  async function handleLogin(e) {
+  async function handleLogin(e: any) {
     e.preventDefault();
     let isError = false;
     if (!form.username) {

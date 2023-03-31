@@ -1,42 +1,37 @@
-import Link from 'next/link';
 import { useState, useRef, useMemo } from 'react';
+import Link from 'next/link';
+import { ArrowSmRightIcon } from '@heroicons/react/outline';
+import { tabledata } from '@data/tableData';
 import * as yup from 'yup';
 import useToast from '@utils/useToast';
-import useModal from '@utils/useModal';
 import Layout from '@components/layout/Layout';
-import Modal from '@components/layout/Modal';
 import Badge from '@components/systems/Badge';
 import Button from '@components/systems/Button';
 import Card from '@components/systems/Card';
 import Checkbox from '@components/systems/Checkbox';
 import Container from '@components/systems/Container';
-import Dropdown from '@components/systems/Dropdown';
+import Dialog from '@components/systems/Dialog';
 import Heading from '@components/systems/Heading';
 import Input from '@components/systems/Input';
+import InputDebounce from '@components/systems/InputDebounce';
 import Label from '@components/systems/Label';
 import LabeledInput from '@components/systems/LabeledInput';
 import LinkButton from '@components/systems/LinkButton';
-import MultipleSelect from '@components/systems/MultipleSelect';
 import Progress from '@components/systems/Progress';
 import Radio from '@components/systems/Radio';
-import Wrapper from '@components/systems/Wrapper';
-import Shimer from '@components/systems/Shimer';
-import Table from '@components/systems/Table';
-import Tag from '@components/systems/Tag';
-import Text from '@components/systems/Text';
-import Title from '@components/systems/Title';
-import Section from '@components/systems/Section';
-import { ArrowSmRightIcon } from '@heroicons/react/outline';
-import Tabs from '@components/systems/Tabs';
-import Dialog from '@components/systems/Dialog';
-import SearchBox from '@components/systems/SearchBox';
 import ReactTable from '@components/systems/ReactTable';
-import { tabledata } from '@utils/tableData';
-import Select from 'react-select';
+import SearchBox from '@components/systems/SearchBox';
+import Section from '@components/systems/Section';
 import SelectBox from '@components/systems/SelectBox';
 import SelectNative from '@components/systems/SelectNative';
+import Shimer from '@components/systems/Shimer';
+import Table from '@components/systems/Table';
+import Tabs from '@components/systems/Tabs';
+import Text from '@components/systems/Text';
 import TextArea from '@components/systems/TextArea';
-import InputDebounce from '@components/systems/InputDebounce';
+import Title from '@components/systems/Title';
+import Wrapper from '@components/systems/Wrapper';
+import Select from 'react-select';
 
 const searchBoxData = [
   {
@@ -66,11 +61,6 @@ export default function Example() {
   const [inputDebounceValue, setInputDebounceValue] = useState();
   const [openDialog, setOpenDialog] = useState(false);
   const [openDangerDialog, setOpenDangerDialog] = useState(false);
-
-  const { modal, isHidden, dismissModal, revealModal } = useModal();
-  const [showMultiSelect, setShowMultiSelect] = useState(false);
-  const [multiSelect, setMultiSelect] = useState([]);
-  const [popOver, setPopOver] = useState({ show: false, value: null });
   const { updateToast, pushToast, dismissToast } = useToast();
   const [user, setUser] = useState({
     username: '',
@@ -83,31 +73,6 @@ export default function Example() {
   function handleSelectColor(e) {
     setSelectedColor(e.target.value);
   }
-
-  const handleShowMultiSelect = () => {
-    setShowMultiSelect(!showMultiSelect);
-  };
-
-  const handleMultiSelect = (e) => {
-    if (!multiSelect.includes(e.currentTarget.value)) {
-      setMultiSelect([...multiSelect, e.currentTarget.value]);
-    }
-    setShowMultiSelect(false);
-  };
-
-  const multiSelectPopItem = (e) => {
-    // prevent clickable parent get clicked
-    e.stopPropagation();
-    setMultiSelect(multiSelect.filter((p, i) => i !== parseInt(e.currentTarget.getAttribute('value'))));
-  };
-
-  const handleDropdownShow = () => {
-    setPopOver({ ...popOver, show: !popOver.show });
-  };
-
-  const handleValueDropdown = (e) => {
-    setPopOver({ show: false, value: e.currentTarget.getAttribute('value') });
-  };
 
   const addToast = () => {
     pushToast({ message: 'This is a toast message', isError: false });
@@ -172,20 +137,6 @@ export default function Example() {
 
   const handleUserChange = (e) => {
     setUser({ ...user, [e.currentTarget.name]: e.currentTarget.value });
-  };
-
-  const handleShowModal = () => {
-    revealModal({
-      title: 'Modal Title',
-      desc: 'Modal Desc',
-      content: 'Modal Content',
-    });
-  };
-
-  const onConfirm = () => {
-    console.log('confirm');
-    // your code before dismiss
-    dismissModal();
   };
 
   const onNext = () => {};
@@ -298,9 +249,6 @@ export default function Example() {
             <Link href='#validation'>Validation (yup)</Link>
           </span>
           <span className='mb-3 block underline'>
-            <Link href='#usemodal'>useModal (hook require Modal component)</Link>
-          </span>
-          <span className='mb-3 block underline'>
             <Link href='#dialog'>Dialog</Link>
           </span>
           <span className='mb-3 block underline'>
@@ -334,12 +282,6 @@ export default function Example() {
             <Link href='#container'>Container</Link>
           </span>
           <span className='mb-3 block underline'>
-            <Link href='#dropdown'>Dropdown</Link>
-          </span>
-          <span className='mb-3 block underline'>
-            <Link href='#dropdownitem'>Dropdown.item</Link>
-          </span>
-          <span className='mb-3 block underline'>
             <Link href='#heading'>Heading</Link>
           </span>
           <span className='mb-3 block underline'>
@@ -368,12 +310,6 @@ export default function Example() {
           </span>
           <span className='mb-3 block underline'>
             <Link href='#selectnativeoption'>SelectNative.option</Link>
-          </span>
-          <span className='mb-3 block underline'>
-            <Link href='#multipleselect'>MultipleSelect</Link>
-          </span>
-          <span className='mb-3 block underline'>
-            <Link href='#multipleselect.item'>MultipleSelect.item</Link>
           </span>
           <span className='mb-3 block underline'>
             <Link href='#progress'>Progress</Link>
@@ -429,41 +365,6 @@ export default function Example() {
           onChange={handleUserChange}
         />
         <Button onClick={checkValid}>Submit</Button>
-      </Wrapper>
-
-      <Wrapper id='usemodal' name='useModal (hook require Modal component)' noChildren noClassName noProps>
-        <code className='dark:text-white'>
-          {`import useModal from '@utils/useModal()'`}
-          <br />
-          {`import Modal from '@components/layout/Modal'`}
-          <br />
-          <br />
-          {`const { modal, isHidden, dismissModal, revealModal } = useModal();`}
-          <br />
-          <br />
-          {`const onConfirm = () => {`}
-          <br />
-          &nbsp;&nbsp;
-          {`// your code before dismiss`}
-          <br />
-          &nbsp;&nbsp;
-          {`dismissModal()`}
-          <br />
-          {`};`}
-          <br />
-          <br />
-          {`<Modal modal={modal} isHidden={isHidden} onDismiss={dismissModal} onConfirm={onConfirm} />`}
-          <br />
-          <br />
-          {`with danger`}
-          <br />
-          {`<Modal modal={modal} isHidden={isHidden} onDismiss={dismissModal} onConfirm={onConfirm} isDanger />`}
-          <br />
-        </code>
-        <br />
-        <br />
-        <Button onClick={handleShowModal}>Show Modal</Button>
-        <Modal modal={modal} isHidden={isHidden} onDismiss={dismissModal} onConfirm={onConfirm} />
       </Wrapper>
 
       <Wrapper
@@ -758,26 +659,6 @@ export default function Example() {
         </Container>
       </Wrapper>
 
-      <Wrapper id='dropdown' name='Dropdown' props={['id', 'name', 'label', 'show', 'value', 'onClick', 'onBlur']}>
-        <Dropdown
-          label='Dropdown'
-          show={popOver.show}
-          value={popOver.value ?? 'Pilih Salah Satu'}
-          onBlur={handleDropdownShow}
-          onClick={handleDropdownShow}
-        >
-          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((e, i) => {
-            return (
-              <Dropdown.item key={i} value={`Item ${i}`} onClick={handleValueDropdown}>
-                Item {i}
-              </Dropdown.item>
-            );
-          })}
-        </Dropdown>
-      </Wrapper>
-
-      <Wrapper id='dropdownitem' name='Dropdown.item' noClassName noWrap />
-
       <Wrapper id='heading' name='Heading' props={['h1', 'h2', 'h3']}>
         <Heading h1>Heading 1</Heading>
         <Heading h2>Heading 2</Heading>
@@ -880,56 +761,6 @@ export default function Example() {
         <SelectNative.option value='red'>Red</SelectNative.option>
         <SelectNative.option value='blue'>Blue</SelectNative.option>
       </Wrapper>
-
-      <Wrapper
-        id='multipleselect'
-        name='MultipleSelect'
-        props={['label', 'show', 'value', 'onClick', 'onBlur']}
-        noClassName
-        noProps
-      >
-        <MultipleSelect
-          label='Multiple Select'
-          onClick={handleShowMultiSelect}
-          onBlur={handleShowMultiSelect}
-          show={showMultiSelect}
-          value={multiSelect.map((p, i) => (
-            <Tag key={i} value={i} onClick={multiSelectPopItem}>
-              {p}
-            </Tag>
-          ))}
-        >
-          <MultipleSelect.item value='Option 1' onClick={handleMultiSelect}>
-            <Tag noX>Option 1</Tag>
-          </MultipleSelect.item>
-          <MultipleSelect.item value='Option 2' onClick={handleMultiSelect}>
-            <Tag noX>Option 2</Tag>
-          </MultipleSelect.item>
-          <MultipleSelect.item value='Option 3' onClick={handleMultiSelect}>
-            <Tag noX>Option 3</Tag>
-          </MultipleSelect.item>
-          <MultipleSelect.item value='Option 4' onClick={handleMultiSelect}>
-            <Tag noX>Option 4</Tag>
-          </MultipleSelect.item>
-          <MultipleSelect.item value='Option 5' onClick={handleMultiSelect}>
-            <Tag noX>Option 5</Tag>
-          </MultipleSelect.item>
-          <MultipleSelect.item value='Option 6' onClick={handleMultiSelect}>
-            <Tag noX>Option 6</Tag>
-          </MultipleSelect.item>
-          <MultipleSelect.item value='Option 7' onClick={handleMultiSelect}>
-            <Tag noX>Option 7</Tag>
-          </MultipleSelect.item>
-          <MultipleSelect.item value='Option 8' onClick={handleMultiSelect}>
-            <Tag noX>Option 8</Tag>
-          </MultipleSelect.item>
-          <MultipleSelect.item value='Option 9' onClick={handleMultiSelect}>
-            <Tag noX>Option 9</Tag>
-          </MultipleSelect.item>
-        </MultipleSelect>
-      </Wrapper>
-
-      <Wrapper id='multipleselectitem' name='MultipleSelect.item' noClassName noWrap />
 
       <Wrapper id='progress' name='Progress' variant={['percentage']} props={['percent']} noChildren noProps>
         <Progress percent={45} />
