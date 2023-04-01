@@ -9,6 +9,7 @@ import Badge from '@components/systems/Badge';
 import Button from '@components/systems/Button';
 import Card from '@components/systems/Card';
 import Checkbox from '@components/systems/Checkbox';
+import Code from '@components/systems/Code';
 import Container from '@components/systems/Container';
 import Dialog from '@components/systems/Dialog';
 import FileInput from '@components/systems/FileInput';
@@ -257,6 +258,9 @@ export default function Example() {
             <Link href='#validation'>Validation (yup)</Link>
           </span>
           <span className='mb-3 block underline'>
+            <Link href='#code'>Code</Link>
+          </span>
+          <span className='mb-3 block underline'>
             <Link href='#modal'>Modal</Link>
           </span>
           <span className='mb-3 block underline'>
@@ -381,6 +385,43 @@ export default function Example() {
         <Button onClick={checkValid}>Submit</Button>
       </Wrapper>
 
+      <Wrapper id='code' name='Code' noChildren props={['name', 'code', 'lang']}>
+        <Code
+          code={`<Code code={'import useToast from '@utils/useToast()'
+
+    const { updateToast, pushToast, dismissToast } = useToast();
+
+    function toastAsync() {
+      const toastId = pushToast({
+        message: "Loading Posting Data",
+        isLoading: true,
+      });
+      setTimeout(() => {
+        updateToast({ toastId, message: "Posting Data Success", isError: false });
+      }, 3000);
+    };
+  '}
+/>`}
+        />
+        <br />
+        <Code
+          name='Render'
+          code={`import useToast from '@utils/useToast()'
+
+const { updateToast, pushToast, dismissToast } = useToast();
+
+function toastAsync() {
+  const toastId = pushToast({
+    message: "Loading Posting Data",
+    isLoading: true,
+  });
+  setTimeout(() => {
+    updateToast({ toastId, message: "Posting Data Success", isError: false });
+  }, 3000);
+};`}
+        />
+      </Wrapper>
+
       <Wrapper
         id='modal'
         name='Modal'
@@ -389,8 +430,6 @@ export default function Example() {
         props={['open', 'title', 'children', 'isDanger', 'onClose', 'onConfirm', 'showIcon']}
       >
         <Button onClick={() => setOpenModal(true)}>Open Modal</Button>
-        <br />
-        <br />
 
         <Modal
           open={openModal}
@@ -551,71 +590,39 @@ export default function Example() {
       </Wrapper>
 
       <Wrapper id='usetoast' name='useToast (hook)' noProps noChildren noClassName hideProps>
-        <code className='dark:text-white'>
-          {`// pushToast({message, isError})`}
-          <br />
-          {`// in case you want to push new toast`}
-          <br />
-          <br />
-          {`// updateToast({id, message, isError})`}
-          <br />
-          {`// in case you want to update toast`}
-          <br />
-          <br />
-          {`// dismissToast()`}
-          <br />
-          {`// in case you want to dismiss all toast`}
-          <br />
-          {`// look validation for example`}
-          <br />
-          <br />
-          {`import useToast from '@utils/useToast()'`}
-          <br />
-          <br />
-          {`const { updateToast, pushToast, dismissToast } = useToast();`}
-          <br />
-          <br />
-          {`const addToast = () => {`}
-          <br />
-          &nbsp;&nbsp;
-          {`pushToast({ message: "This is a toast message", isError: false });`}
-          <br />
-          {`};`}
-          <br />
-          <br />
-          {`const addToastError = () => {`}
-          <br />
-          &nbsp;&nbsp;
-          {`pushToast({ message: "This is a toast message", isError: true });`}
-          {`};`}
-          <br />
-          <br />
-          {`const toastAsync = () => {`}
-          <br />
-          &nbsp;&nbsp;{`const toastId = pushToast({`}
-          <br />
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          {`message: "Loading Posting Data",`}
-          <br />
-          &nbsp;&nbsp;&nbsp;&nbsp;{`isLoading: true,`}
-          <br />
-          &nbsp;&nbsp;{`});`}
-          <br />
-          &nbsp;&nbsp;{`setTimeout(() => {`}
-          <br />
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          {`updateToast({ toastId, message: "Posting Data Success", isError: false });`}
-          <br />
-          &nbsp;&nbsp;{`}, 3000);`}
-          <br />
-          {`};`}
-        </code>
+        <Code
+          code={`import useToast from '@utils/useToast()'
+
+const { updateToast, pushToast, dismissToast } = useToast();
+
+function addToast() {
+  pushToast({ message: "This is a toast message", isError: false });
+};
+
+function addToastError() {
+  pushToast({ message: "This is a toast message", isError: true });};
+
+function toastAsync() {
+  const toastId = pushToast({
+    message: "Loading Posting Data",
+    isLoading: true,
+  });
+  setTimeout(() => {
+    updateToast({ toastId, message: "Posting Data Success", isError: false });
+  }, 3000);
+};
+
+function dissmissAllToast() {
+  dismissToast()
+}`}
+        />
       </Wrapper>
 
       <div className='flex flex-wrap items-center gap-2'>
         <Button onClick={addToast}>Show Me Toast</Button>
         <Button onClick={addToastError}>Show Me Error Toast</Button>
         <Button onClick={toastAsync}>Toast with async</Button>
+        <Button onClick={() => dismissToast()}>Dismiss all Toast</Button>
       </div>
 
       <Wrapper
