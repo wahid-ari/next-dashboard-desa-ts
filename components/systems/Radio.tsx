@@ -40,17 +40,25 @@ export default function Radio({ label, name, value, onChange, checked, ...props 
 }
 
 type DisabledProps = {
+  label?: string;
   name: string;
-  checked: boolean;
+  checked?: boolean;
   [props: string]: any;
 };
 
-Radio.disabled = ({ name, checked, ...props }: DisabledProps) => {
+Radio.disabled = ({ label, name, checked, ...props }: DisabledProps) => {
   return (
     <div className='mb-3 cursor-not-allowed text-sm'>
       <label className='pointer-events-none relative select-none pl-6 pb-0.5 text-gray-800 dark:text-neutral-300'>
-        {name}
-        <input {...props} checked={checked} type='radio' className='peer absolute h-0 w-0 opacity-0' />
+        {label}
+        <input
+          {...props}
+          name={name}
+          checked={checked}
+          disabled
+          type='radio'
+          className='peer absolute h-0 w-0 opacity-0'
+        />
         <span
           className={clsx(
             'absolute -top-0.5 left-0 mt-0.5 h-4 w-4 rounded-full transition-all',

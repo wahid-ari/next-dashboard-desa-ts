@@ -12,6 +12,7 @@ type Props = {
   noChildren?: boolean;
   noProps?: boolean;
   noWrap?: boolean;
+  hideProps?: boolean;
   children?: ReactNode;
 };
 
@@ -24,6 +25,7 @@ export default function Wrapper({
   noChildren,
   noProps,
   noWrap,
+  hideProps,
   children,
 }: Props) {
   return (
@@ -40,24 +42,30 @@ export default function Wrapper({
         <div className='relative mb-2 rounded-md border p-8 dark:border-neutral-800'>{children}</div>
       )}
       {variant && variant.length > 0 ? (
-        <div className='mb-2 flex flex-wrap items-center gap-y-2'>
-          {variant.map((v, i) => {
-            return <Badge.yellow key={i}>.{v}</Badge.yellow>;
-          })}
+        <div className='my-2 flex flex-wrap items-center gap-2'>
+          <p>Variants : </p>
+          <div className='flex flex-wrap items-center gap-y-2'>
+            {variant.map((v, i) => {
+              return <Badge.yellow key={i}>.{v}</Badge.yellow>;
+            })}
+          </div>
         </div>
-      ) : (
-        ''
+      ) : null}
+
+      {!hideProps && (
+        <div className='mt-2 flex flex-wrap items-center gap-2'>
+          <p>Props : </p>
+          <div className='flex flex-wrap items-center gap-y-2'>
+            {!noClassName && <Badge.green>className</Badge.green>}
+            {props?.length > 0 &&
+              props.map((p, i) => {
+                return <Badge key={i}>{p}</Badge>;
+              })}
+            {!noChildren && <Badge.green>children</Badge.green>}
+            {!noProps && <Badge.green>...props</Badge.green>}
+          </div>
+        </div>
       )}
-      <div className='flex flex-wrap items-center gap-y-2'>
-        {!noClassName && <Badge.green>className</Badge.green>}
-        {props &&
-          props.length > 0 &&
-          props.map((p, i) => {
-            return <Badge key={i}>{p}</Badge>;
-          })}
-        {!noChildren && <Badge.green>children</Badge.green>}
-        {!noProps && <Badge.green>...props</Badge.green>}
-      </div>
     </section>
   );
 }

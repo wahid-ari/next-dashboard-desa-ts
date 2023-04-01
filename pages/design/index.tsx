@@ -11,12 +11,14 @@ import Card from '@components/systems/Card';
 import Checkbox from '@components/systems/Checkbox';
 import Container from '@components/systems/Container';
 import Dialog from '@components/systems/Dialog';
+import FileInput from '@components/systems/FileInput';
 import Heading from '@components/systems/Heading';
 import Input from '@components/systems/Input';
 import InputDebounce from '@components/systems/InputDebounce';
 import Label from '@components/systems/Label';
 import LabeledInput from '@components/systems/LabeledInput';
 import LinkButton from '@components/systems/LinkButton';
+import Modal from '@components/systems/Modal';
 import Progress from '@components/systems/Progress';
 import Radio from '@components/systems/Radio';
 import ReactTable from '@components/systems/ReactTable';
@@ -61,6 +63,7 @@ export default function Example() {
   const [inputDebounceValue, setInputDebounceValue] = useState();
   const [openDialog, setOpenDialog] = useState(false);
   const [openDangerDialog, setOpenDangerDialog] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const { updateToast, pushToast, dismissToast } = useToast();
   const [user, setUser] = useState({
     username: '',
@@ -70,19 +73,19 @@ export default function Example() {
   });
 
   const [selectedColor, setSelectedColor] = useState('blue');
-  function handleSelectColor(e) {
+  function handleSelectColor(e: any) {
     setSelectedColor(e.target.value);
   }
 
-  const addToast = () => {
+  function addToast() {
     pushToast({ message: 'This is a toast message', isError: false });
-  };
+  }
 
-  const addToastError = () => {
+  function addToastError() {
     pushToast({ message: 'This is a toast message', isError: true });
-  };
+  }
 
-  const toastAsync = () => {
+  function toastAsync() {
     const toastId = pushToast({
       message: 'Loading Posting Data',
       isLoading: true,
@@ -90,9 +93,9 @@ export default function Example() {
     setTimeout(() => {
       updateToast({ toastId, message: 'Posting Data Success', isError: false });
     }, 3000);
-  };
+  }
 
-  let userSchema = yup.object().shape({
+  const userSchema = yup.object().shape({
     username: yup
       .string()
       .required('Username harus diisi')
@@ -111,21 +114,21 @@ export default function Example() {
       .typeError('Angka harus valid'),
   });
 
-  const checker = async (schema, param) => {
+  async function checker(schema: any, param: any) {
     try {
       await schema.validate(param, { abortEarly: false });
       return { valid: true };
     } catch (err) {
       return { valid: false, errors: err.errors };
     }
-  };
+  }
 
-  const checkValid = async () => {
+  async function checkValid() {
     try {
       const { valid, errors } = await checker(userSchema, user);
       if (!valid && errors) {
         dismissToast();
-        errors.forEach((el) => {
+        errors.forEach((el: any) => {
           pushToast({ message: el, isError: true });
         });
       }
@@ -133,15 +136,15 @@ export default function Example() {
     } catch (e) {
       console.error(e);
     }
-  };
+  }
 
-  const handleUserChange = (e) => {
+  function handleUserChange(e: any) {
     setUser({ ...user, [e.currentTarget.name]: e.currentTarget.value });
-  };
+  }
 
-  const onNext = () => {};
+  function onNext() {}
 
-  const onPrev = () => {};
+  function onPrev() {}
 
   const [selectedSearchBox, setSelectedSearchBox] = useState();
   const [querySearchBox, setQuerySearchBox] = useState('');
@@ -233,11 +236,16 @@ export default function Example() {
 
   const [selectedBox, setSelectedBox] = useState();
 
+  const [file, setFile] = useState({ name: '' });
+  function handleFileChange(e: any) {
+    setFile({ ...file, name: e.target.files[0].name, [e.target.name]: e.target.files[0] });
+  }
+
   return (
     <Layout title='Design System'>
       <div className='relative'>
         <Title>Example</Title>
-        <span className='absolute top-1 left-24 flex h-5 w-5 animate-bounce items-center justify-center'>
+        <span className='absolute top-1 left-[105px] flex h-5 w-5 animate-bounce items-center justify-center'>
           <span className='absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-400 opacity-75' />
           <span className='relative inline-flex h-3 w-3 rounded-full bg-sky-500' />
         </span>
@@ -247,6 +255,9 @@ export default function Example() {
         <div className='columns-2 text-blue-600 dark:text-sky-500 sm:columns-3'>
           <span className='mb-3 block underline'>
             <Link href='#validation'>Validation (yup)</Link>
+          </span>
+          <span className='mb-3 block underline'>
+            <Link href='#modal'>Modal</Link>
           </span>
           <span className='mb-3 block underline'>
             <Link href='#dialog'>Dialog</Link>
@@ -289,6 +300,9 @@ export default function Example() {
           </span>
           <span className='mb-3 block underline'>
             <Link href='#inputdisabled'>Input.disabled</Link>
+          </span>
+          <span className='mb-3 block underline'>
+            <Link href='#fileinput'>FileInput</Link>
           </span>
           <span className='mb-3 block underline'>
             <Link href='#label'>Label</Link>
@@ -347,7 +361,7 @@ export default function Example() {
         </div>
       </Wrapper>
 
-      <Wrapper id='validation' name='Validation' noChildren noClassName noProps>
+      <Wrapper id='validation' name='Validation' noChildren noClassName noProps hideProps>
         <LabeledInput
           label='Username'
           name='username'
@@ -365,6 +379,30 @@ export default function Example() {
           onChange={handleUserChange}
         />
         <Button onClick={checkValid}>Submit</Button>
+      </Wrapper>
+
+      <Wrapper
+        id='modal'
+        name='Modal'
+        noClassName
+        noProps
+        props={['open', 'title', 'children', 'isDanger', 'onClose', 'onConfirm', 'showIcon']}
+      >
+        <Button onClick={() => setOpenModal(true)}>Open Modal</Button>
+        <br />
+        <br />
+
+        <Modal
+          open={openModal}
+          title='Confirmation'
+          onClose={() => setOpenModal(false)}
+          onConfirm={() => setOpenModal(false)}
+          showIcon
+        >
+          Enim esse esse voluptate cupidatat nulla ipsum cillum incididunt. Voluptate aliquip duis cupidatat incididunt
+          incididunt velit velit ut minim enim. Cupidatat nulla ullamco occaecat enim fugiat fugiat non commodo et
+          deserunt nisi. Do officia duis id cillum adipisicing.
+        </Modal>
       </Wrapper>
 
       <Wrapper
@@ -512,7 +550,7 @@ export default function Example() {
         <ReactTable columns={column} data={tabledata} ref={tableInstance} page_size={5} />
       </Wrapper>
 
-      <Wrapper id='usetoast' name='useToast (hook)' noProps noChildren noClassName>
+      <Wrapper id='usetoast' name='useToast (hook)' noProps noChildren noClassName hideProps>
         <code className='dark:text-white'>
           {`// pushToast({message, isError})`}
           <br />
@@ -679,6 +717,15 @@ export default function Example() {
         <Input.disabled name='input' placeholder='Input default' defaultValue='Has a value' />
       </Wrapper>
 
+      <Wrapper
+        id='fileinput'
+        name='FileInput'
+        props={['id', 'className', 'label', 'name', 'value', 'onChange']}
+        noChildren
+      >
+        <FileInput label='File' name='File' value={file ? file.name : ''} onChange={handleFileChange} accept='.pdf' />
+      </Wrapper>
+
       <Wrapper id='label' name='Label'>
         <Label>Ut deserunt do est irure.</Label>
       </Wrapper>
@@ -778,9 +825,10 @@ export default function Example() {
         noClassName
         noChildren
       >
-        <Radio name='radio' label='Radio' />
-        <Radio name='radio' label='Disabled Radio' />
-        <Radio name='radio' label='Disabled Checked Radio' defaultChecked />
+        <Radio name='radio' label='Blue' />
+        <Radio name='radio' label='Red' />
+        <Radio.disabled name='radios' label='Disabled Radio' />
+        <Radio.disabled name='radios' label='Disabled Checked Radio' defaultChecked />
       </Wrapper>
 
       <Wrapper id='shimer' name='Shimer' noChildren noProps>
