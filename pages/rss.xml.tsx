@@ -1,0 +1,97 @@
+const BASE_URL = `${process.env.API_ROUTE}`;
+
+function generateRssFeed() {
+  const timeElapsed = Date.now();
+  const today = new Date(timeElapsed);
+
+  return `<rss version="2.0">
+      <channel>
+        <title>Next Dashboard Desa | RSS Feed</title>
+        <link>${BASE_URL}</link>
+        <description>Welcome Next Dashboard Desa RSS Feed</description>
+        <lastBuildDate>${today.toISOString().split('T')[0]}</lastBuildDate>
+        <pubDate>Sun, 9 Apr 2023 11:06:42 GMT</pubDate>
+        <language>en-us</language>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>Feed for Node.js</generator>
+        <ttl>60</ttl>
+        <managingEditor>wahiid.ari@gmail.com</managingEditor>
+        <webMaster>wahiid.ari@gmail.com</webMaster>
+        <image>
+          <title>Next Dashboard Desa | RSS Feed</title>
+          <url>${BASE_URL}/logo.png</url>
+          <link>${BASE_URL}</link>
+          <description>Next Dashboard Desa Logo</description>
+        </image>
+        <copyright>All rights reserved 2022, Next Dashboard Desa</copyright>
+      </channel>
+    </rss>
+  `;
+}
+
+// function generateRssFeed(movies: any) {
+//   const timeElapsed = Date.now();
+//   const today = new Date(timeElapsed);
+
+//   return `<rss version="2.0">
+//       <channel>
+//         <title>Next Dashboard Desa | RSS Feed</title>
+//         <link>${BASE_URL}</link>
+//         <description>Welcome Next Dashboard Desa RSS Feed</description>
+//         <lastBuildDate>${today.toISOString().split('T')[0]}</lastBuildDate>
+//         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+//         <generator>Feed for Node.js</generator>
+//         <image>
+//           <title>Next Dashboard Desa | RSS Feed</title>
+//           <url>${BASE_URL}/logo.png</url>
+//           <link>${BASE_URL}</link>
+//         </image>
+//         <copyright>All rights reserved 2022, Next Dashboard Desa</copyright>
+
+//         <!-- Automatically generate dynamic movies page-->
+//         ${movies
+//           .map((movie: any) => {
+//             return `
+//             <item>
+//               <title>
+//                 <![CDATA[ ${movie.name} ]]>
+//               </title>
+//               <description>
+//                 <![CDATA[ ${movie.description} ]]>
+//               </description>
+//               <author>wahiid.ari@gmail.com</author>
+//               <pubDate>${movie.created_at.substring(0,10)}</pubDate>
+//               <link>${BASE_URL}/movies/${movie.id}</link>
+//               <guid>${BASE_URL}/movies/${movie.id}</guid>
+//             </item>
+//           `;
+//           })
+//           .join('')}
+        
+//       </channel>
+//     </rss>
+//   `;
+// }
+
+export default function SiteMap() {
+  // getServerSideProps will do the heavy lifting
+}
+
+export async function getServerSideProps({ res }) {
+  // We make an API call to gather the URLs for our site
+  // const getAllMovies = await fetch(`https://my-moviee.vercel.app/api/movies`);
+  // const movies = await getAllMovies.json();
+
+  // We generate the XML sitemap with the data
+  // const sitemap = generateRssFeed(movies.slice(0,2));
+  const sitemap = generateRssFeed();
+
+  res.setHeader('Content-Type', 'text/xml');
+  // we send the XML to the browser
+  res.write(sitemap);
+  res.end();
+
+  return {
+    props: {},
+  };
+}

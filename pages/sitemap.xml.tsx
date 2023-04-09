@@ -11,21 +11,25 @@ function generateSiteMap() {
       <url>
         <loc>${BASE_URL}</loc>
         <lastmod>${today.toISOString()}</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>1.00</priority>
       </url>
       <url>
         <loc>${BASE_URL}/settings</loc>
         <lastmod>${today.toISOString()}</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.80</priority>
       </url>
       <url>
         <loc>${BASE_URL}/keuangan</loc>
         <lastmod>${today.toISOString()}</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.80</priority>
       </url>
       <url>
         <loc>${BASE_URL}/design</loc>
         <lastmod>${today.toISOString()}</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.80</priority>
       </url>
 
@@ -43,21 +47,25 @@ function generateSiteMap() {
 //       <url>
 //         <loc>${BASE_URL}</loc>
 //         <lastmod>${today.toISOString()}</lastmod>
+//         <changefreq>weekly</changefreq>
 //         <priority>1.00</priority>
 //       </url>
 //       <url>
 //         <loc>${BASE_URL}/settings</loc>
 //         <lastmod>${today.toISOString()}</lastmod>
+//         <changefreq>weekly</changefreq>
 //         <priority>0.80</priority>
 //       </url>
 //       <url>
 //         <loc>${BASE_URL}/keuangan</loc>
 //         <lastmod>${today.toISOString()}</lastmod>
+//         <changefreq>weekly</changefreq>
 //         <priority>0.80</priority>
 //       </url>
 //       <url>
 //         <loc>${BASE_URL}/design</loc>
 //         <lastmod>${today.toISOString()}</lastmod>
+//         <changefreq>weekly</changefreq>
 //         <priority>0.80</priority>
 //       </url>
 
@@ -68,6 +76,7 @@ function generateSiteMap() {
 //       <url>
 //         <loc>${`${BASE_URL}/movies/${movie.id}`}</loc>
 //         <lastmod>${today.toISOString()}</lastmod>
+//         <changefreq>weekly</changefreq>
 //       </url>
 //     `;
 //     })
