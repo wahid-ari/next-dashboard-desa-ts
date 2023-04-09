@@ -4,19 +4,20 @@ function generateRssFeed() {
   const timeElapsed = Date.now();
   const today = new Date(timeElapsed);
 
-  return `<rss version="2.0">
+  return `<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
       <channel>
         <title>Next Dashboard Desa | RSS Feed</title>
         <link>${BASE_URL}</link>
         <description>Welcome Next Dashboard Desa RSS Feed</description>
-        <lastBuildDate>${today.toISOString().split('T')[0]}</lastBuildDate>
-        <pubDate>Sun, 9 Apr 2023 11:06:42 GMT</pubDate>
+        <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
+        <pubDate>${new Date().toUTCString()}</pubDate>
         <language>en-us</language>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>Feed for Node.js</generator>
         <ttl>60</ttl>
-        <managingEditor>wahiid.ari@gmail.com</managingEditor>
-        <webMaster>wahiid.ari@gmail.com</webMaster>
+        <managingEditor>wahiid.ari@gmail.com (Wahid Ari)</managingEditor>
+        <webMaster>wahiid.ari@gmail.com (Wahid Ari)</webMaster>
+        <atom:link href="${BASE_URL}/rss.xml" rel="self" type="application/rss+xml" />
         <image>
           <title>Next Dashboard Desa | RSS Feed</title>
           <url>${BASE_URL}/logo.png</url>
@@ -33,18 +34,25 @@ function generateRssFeed() {
 //   const timeElapsed = Date.now();
 //   const today = new Date(timeElapsed);
 
-//   return `<rss version="2.0">
+//   return `<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 //       <channel>
 //         <title>Next Dashboard Desa | RSS Feed</title>
 //         <link>${BASE_URL}</link>
 //         <description>Welcome Next Dashboard Desa RSS Feed</description>
-//         <lastBuildDate>${today.toISOString().split('T')[0]}</lastBuildDate>
+//         <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
+//         <pubDate>${new Date().toUTCString()}</pubDate>
+//         <language>en-us</language>
 //         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
 //         <generator>Feed for Node.js</generator>
+//         <ttl>60</ttl>
+//         <managingEditor>wahiid.ari@gmail.com (Wahid Ari)</managingEditor>
+//         <webMaster>wahiid.ari@gmail.com (Wahid Ari)</webMaster>
+//         <atom:link href="${BASE_URL}/rss.xml" rel="self" type="application/rss+xml" />
 //         <image>
 //           <title>Next Dashboard Desa | RSS Feed</title>
 //           <url>${BASE_URL}/logo.png</url>
 //           <link>${BASE_URL}</link>
+//           <description>Next Dashboard Desa Logo</description>;
 //         </image>
 //         <copyright>All rights reserved 2022, Next Dashboard Desa</copyright>
 

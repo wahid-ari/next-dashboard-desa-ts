@@ -41,6 +41,9 @@ export default function HeadSeo({ title, description }: Props) {
       <link rel='icon' type='image/png' sizes='96x96' href='/favicon-96x96.png' />
       <link rel='icon' type='image/png' sizes='16x16' href='/favicon-16x16.png' />
       <meta name='msapplication-TileImage' content='/ms-icon-144x144.png' />
+
+      <link rel='sitemap' type='application/xml' title='Sitemap' href={`${process.env.API_ROUTE}/sitemap.xml`} />
+      <link rel='alternate' type='application/rss+xml' title='RSS feed' href={`${process.env.API_ROUTE}/rss.xml`} />
     </Head>
   );
 }
