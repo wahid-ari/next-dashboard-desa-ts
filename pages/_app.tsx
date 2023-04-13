@@ -5,7 +5,7 @@ import { GlobalProvider } from '@utils/GlobalContext';
 import '@styles/globals.css';
 import '@styles/prism.css';
 // import { useRouter } from "next/router";
-import { Inter } from '@next/font/google';
+import { Inter } from 'next/font/google';
 import { ThemeProvider } from 'next-themes';
 
 const inter = Inter({ subsets: ['latin'] });
