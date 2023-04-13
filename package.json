@@ -1,5 +1,5 @@
 {
-  "name": "next-dashboard-desa",
+  "name": "next-dashboard-desa-ts",
   "private": true,
   "scripts": {
     "dev": "next dev",

@@ -24,7 +24,7 @@ export default function SearchBox({
   filtered,
 }: Props) {
   return (
-    // @ts-ignoree
+    // @ts-ignore
     <Combobox value={value} by='id' onChange={onChange}>
       <div className='relative mt-1 pb-1'>
         {label && <Combobox.Label className='text-gray-800 dark:text-neutral-300'>{label}</Combobox.Label>}
