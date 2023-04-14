@@ -39,7 +39,7 @@ export default function InputDebounce({
       onChange(value);
     }, debounce);
     return () => clearTimeout(timeout);
-  }, [value]);
+  }, [value, debounce, onChange]);
 
   return (
     <div className={`mb-4 ${wrapperClassName}`}>

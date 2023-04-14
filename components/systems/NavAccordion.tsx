@@ -24,7 +24,7 @@ export default function NavAccordion({ title, routeName, icon, children }: Props
       setIsOpen(false);
     }
     setCek(true);
-  }, [router.pathname]);
+  }, [router, routeName]);
 
   return cek ? (
     <>
