@@ -12,7 +12,6 @@
   "dependencies": {
     "@headlessui/react": "^1.7.4",
     "@heroicons/react": "^1.0.5",
-    "@next/font": "^13.1.6",
     "@radix-ui/react-dialog": "^1.0.2",
     "@vercel/og": "^0.1.0",
     "axios": "^1.2.1",
