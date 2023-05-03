@@ -19,7 +19,7 @@ export default function SelectBox({ label, value, onChange, options, placeholder
     <Listbox value={value} onChange={onChange}>
       <div className='relative mt-4'>
         <Listbox.Label className='text-sm font-medium dark:text-gray-200'>{label}</Listbox.Label>
-        <Listbox.Button className='relative mt-2 w-full cursor-pointer rounded border border-gray-200 bg-white py-2 px-3 text-left text-sm transition-all hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-sky-500 dark:border-neutral-700 dark:bg-neutral-900 dark:text-gray-200 dark:hover:bg-neutral-800'>
+        <Listbox.Button className='relative mt-2 w-full cursor-pointer rounded border border-gray-200 bg-white px-3 py-2 text-left text-sm transition-all hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-sky-500 dark:border-neutral-700 dark:bg-neutral-900 dark:text-gray-200 dark:hover:bg-neutral-800'>
           <span className='block truncate'>{value ? value?.name : placeholder || 'Choose'}</span>
           <span className='absolute inset-y-0 right-0 flex items-center pr-2'>
             <SelectorIcon className='h-5 w-5 text-gray-500 dark:text-gray-200' aria-hidden='true' />
@@ -30,7 +30,7 @@ export default function SelectBox({ label, value, onChange, options, placeholder
             <Listbox.Option
               key={index}
               className={({ active }) =>
-                `cursor-pointer py-2 px-3 text-neutral-700 hover:bg-gray-100 hover:text-sky-500 dark:text-gray-200 dark:hover:bg-neutral-800 dark:hover:text-sky-500 
+                `cursor-pointer px-3 py-2 text-neutral-700 hover:bg-gray-100 hover:text-sky-500 dark:text-gray-200 dark:hover:bg-neutral-800 dark:hover:text-sky-500 
 								${active ? 'bg-gray-100 text-sky-500 dark:bg-neutral-800 dark:text-sky-500' : ' '}`
               }
               value={option}
